@@ -1163,8 +1163,13 @@ function authErrMsg(e) {
     'auth/weak-password': 'Parola trebuie să aibă cel puțin 6 caractere.', 'auth/invalid-email': 'Adresa de email nu e validă.',
     'auth/too-many-requests': 'Prea multe încercări. Așteaptă câteva minute.', 'auth/network-request-failed': 'Nu ai internet.',
     'auth/operation-not-allowed': 'Logarea cu email nu e activată în Firebase (ghid, pasul 3).',
-    'auth/unauthorized-domain': 'Linkul aplicației nu e autorizat în Firebase (ghid, pasul 7).'
-  })[e && e.code] || 'Ceva n-a mers. Încearcă din nou.';
+    'auth/unauthorized-domain': 'Linkul aplicației nu e autorizat în Firebase (ghid, pasul 7).',
+    'auth/configuration-not-found': 'Logarea nu e pornită în Firebase: Authentication → Get started, apoi Email/Password → Enable.',
+    'auth/admin-restricted-operation': 'Crearea de conturi e oprită în Firebase: Authentication → Settings → User actions → bifează „Enable create (sign-up)”.',
+    'auth/api-key-not-valid.-please-pass-a-valid-api-key.': 'Cheia din config.js nu e validă. Verifică blocul firebaseConfig.',
+    'auth/invalid-api-key': 'Cheia din config.js nu e validă. Verifică blocul firebaseConfig.',
+    'auth/missing-password': 'Scrie parola.'
+  })[e && e.code] || ('Ceva n-a mers (cod: ' + ((e && e.code) || 'necunoscut') + '). Trimite-i codul lui Claude.');
 }
 function vAuth() {
   const hero = t => `<div><div class="kicker">eugen.method · coach</div><div class="auth-hero">${t}</div></div>`;
