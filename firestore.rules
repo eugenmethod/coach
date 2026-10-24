@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// Reguli eugen.method Coach: doar antrenorul (email confirmat) citește și scrie.
+// Dacă intri cu alt email, schimbă-l mai jos și în config.js.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isCoach() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email == 'rbogdan.eugen@yahoo.com';
+    }
+    match /{document=**} {
+      allow read, write: if isCoach();
+    }
+  }
+}
