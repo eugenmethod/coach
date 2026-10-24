@@ -1205,12 +1205,14 @@ document.addEventListener('submit', async ev => {
   const f = ev.target.closest('form[data-form]'); if (!f) return;
   const t = f.dataset.form; if (!['login', 'signup', 'reset'].includes(t)) return;
   ev.preventDefault(); ev.stopImmediatePropagation();
-  S.authErr = ''; S.authMsg = ''; const email = $('#aemail').value.trim().toLowerCase();
-  if (t === 'signup' && $('#apass').value !== $('#apass2').value) { S.authErr = 'Parolele nu sunt la fel.'; render(); return; }
+  S.authErr = ''; S.authMsg = '';
+  const email = $('#aemail').value.trim().toLowerCase();
+  const pass = ($('#apass') || {}).value || '', pass2 = ($('#apass2') || {}).value || '';
+  if (t === 'signup' && pass !== pass2) { S.authErr = 'Parolele nu sunt la fel.'; render(); return; }
   S.busy = true; render();
   try {
-    if (t === 'login') await auth.signInWithEmailAndPassword(email, ($('#apass') || {}).value || '');
-    else if (t === 'signup') { const cr = await auth.createUserWithEmailAndPassword(email, $('#apass').value); await cr.user.sendEmailVerification(); }
+    if (t === 'login') await auth.signInWithEmailAndPassword(email, pass);
+    else if (t === 'signup') { const cr = await auth.createUserWithEmailAndPassword(email, pass); await cr.user.sendEmailVerification(); }
     else { await auth.sendPasswordResetEmail(email); S.authMsg = 'Dacă există un cont cu adresa asta, ți-am trimis linkul de resetare.'; }
   } catch (e) { S.authErr = authErrMsg(e); }
   S.busy = false; render();
